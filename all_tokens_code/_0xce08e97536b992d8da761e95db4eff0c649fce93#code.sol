@@ -1,0 +1,25 @@
+//token_name	
+//token_url	https://etherscan.io//address/0xce08e97536b992d8da761e95db4eff0c649fce93#code
+//spider_time	2018/07/08 12:40:45
+//token_Transactions	1 txn
+//token_price	
+
+pragma solidity ^0.4.19;
+contract KnowItAll {
+    address owner;
+    function KnowItAll() 
+        public {
+        owner = msg.sender;
+        // I knew my address was going to be :
+        address precalculatedAddress = 0xce08e97536b992d8da761e95db4eff0c649fce93;
+    }
+    function calculateAddress(uint8 _nonce) 
+    // works only for nonces between 1 and 127 (or 255 maybe? must investigate RLP in more detail)
+    //calculates address of any potential brother (other contract created by same address)
+        public 
+        constant 
+        returns (address) {
+        require(msg.sender == owner);
+        return address(keccak256(0xd6, 0x94, 0x6B1e0fb8c127B29747a186AEC66973A8CE2458ee, _nonce));
+    }
+}

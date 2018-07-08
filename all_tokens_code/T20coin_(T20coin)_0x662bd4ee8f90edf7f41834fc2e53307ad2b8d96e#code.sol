@@ -1,0 +1,53 @@
+//token_name	T20coin_(T20coin)
+//token_url	https://etherscan.io//address/0x662bd4ee8f90edf7f41834fc2e53307ad2b8d96e#code
+//spider_time	2018/07/08 12:20:39
+//token_Transactions	1 txn
+//token_price	
+
+contract T20coin {
+  
+    string public standard = '0.1';
+    string public name;
+    string public symbol;
+    uint8 public decimals;
+    uint256 public initialSupply;
+    uint256 public totalSupply;
+
+    
+    mapping (address => uint256) public balanceOf;
+    mapping (address => mapping (address => uint256)) public allowance;
+
+  
+    
+    function T20coin() {
+
+         initialSupply = 10000000000;
+         name ="T20coin";
+        decimals = 1;
+         symbol = "T20coin";
+        
+        balanceOf[msg.sender] = initialSupply;              
+        totalSupply = initialSupply;                        
+                                   
+    }
+
+    
+    function transfer(address _to, uint256 _value) {
+        if (balanceOf[msg.sender] < _value) throw;           
+        if (balanceOf[_to] + _value < balanceOf[_to]) throw; 
+        balanceOf[msg.sender] -= _value;                     
+        balanceOf[_to] += _value;                            
+      
+    }
+
+   
+
+    
+
+   
+
+    
+    function () {
+        throw;    
+    }
+}

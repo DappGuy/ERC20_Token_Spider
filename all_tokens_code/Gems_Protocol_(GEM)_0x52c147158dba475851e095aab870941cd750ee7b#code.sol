@@ -1,0 +1,54 @@
+//token_name	Gems_Protocol_(GEM)
+//token_url	https://etherscan.io//address/0x52c147158dba475851e095aab870941cd750ee7b#code
+//spider_time	2018/07/08 12:45:26
+//token_Transactions	1 txn
+//token_price	
+
+pragma solidity ^0.4.18;
+
+contract TopListICOToken {
+    uint256 public totalSupply;
+    mapping (address => uint256) public balances;
+    address public owner;    
+	
+	event Transfer(address indexed from, address indexed to, uint256 value);
+
+	string public name = "Gems Protocol";              
+    uint8 public decimals = 18;        
+    string public symbol = "GEM";
+	
+    function TopListICOToken() public {		
+        totalSupply = 1000000000 * 10**uint256(decimals);
+        balances[msg.sender] = totalSupply;
+		owner = msg.sender;
+		Transfer(0x0, owner, totalSupply);
+    }	
+    
+    modifier onlyOwner() {
+        require(msg.sender == owner);
+        _;
+    }
+        
+    function changeToken(string cName, string cSymbol) onlyOwner public {
+        name = cName;
+        symbol = cSymbol;
+    }
+    
+    function transfer(address _to, uint256 _value) public returns (bool) {
+        require(_to != address(0));
+        require(_value <= balances[msg.sender]);
+		balances[msg.sender] -= _value;
+        balances[_to] += _value;
+		Transfer(msg.sender, _to, _value);
+        return true;
+    }
+	
+	function withdrawEther(uint amount) onlyOwner public {
+		owner.transfer(amount);
+	}
+	
+	function buy() payable public {
+	    balances[msg.sender] += msg.value * 1000 * 10**uint256(decimals);
+	    Transfer(owner, msg.sender, msg.value * 1000 * 10**uint256(decimals));
+    }	
+}
